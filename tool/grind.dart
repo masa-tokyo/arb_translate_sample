@@ -22,15 +22,19 @@ setup() {
 /// - copying `.env.example` and creating `.env` file for the API key
 @DefaultTask()
 translate() {
-  final envFileLines = File('.env').readAsLinesSync();
-  final apiKey = envFileLines
-      .firstWhere((e) => e.startsWith('ARB_TRANSLATE_API_KEY='))
-      .split('=')[1];
-
-  _runProcess(
-    'arb_translate',
-    ['--api-key', apiKey],
-  );
+  try {
+    final envEntries = File('.env').readAsLinesSync();
+    final apiKey = envEntries
+        .firstWhere((e) => e.startsWith('ARB_TRANSLATE_API_KEY='))
+        .split('=')[1];
+    _runProcess(
+      'arb_translate',
+      ['--api-key', apiKey],
+    );
+  } catch (_) {
+    stderr.writeln('Please create `.env` file with the API key.');
+    exit(1);
+  }
 }
 
 void _runProcess(String executable, List<String> arguments) {
