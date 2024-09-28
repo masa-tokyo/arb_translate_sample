@@ -1,3 +1,4 @@
 template-arb-file: app_ja.arb
 output-class: L10n
 nullable-getter: false
+arb-translate-model: gemini-1.5-flash
