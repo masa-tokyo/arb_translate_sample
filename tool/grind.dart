@@ -40,8 +40,13 @@ translate() {
       'arb_translate',
       ['--api-key', apiKey, '--context', _transContext],
     );
-  } catch (_) {
-    stderr.writeln('Please create `.env` file with the API key.');
+  } on PathNotFoundException catch (_) {
+    stderr.writeln(
+        'PathNotFoundException: `.env` file is not found. Please create it by copying `.env.example`.');
+    exit(1);
+  } on StateError catch (_) {
+    stderr.writeln(
+        'StateError: `.env` file does not contain `ARB_TRANSLATE_API_KEY`.');
     exit(1);
   }
 }
