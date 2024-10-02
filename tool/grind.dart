@@ -25,13 +25,13 @@ For example, おにぎり should be Onigiri.
 ///
 /// Use this command after:
 /// - installing the package with [setup]
-/// - copying `.env.example` and creating `.env` file for the API key
+/// - copying `.config.example` and creating `.config` file for the API key
 ///
 /// To improve the quality of translation, update [_transContext].
 @DefaultTask()
 translate() {
   try {
-    final envEntries = File('.env').readAsLinesSync();
+    final envEntries = File('.config').readAsLinesSync();
     final apiKey = envEntries
         .firstWhere((e) => e.startsWith('ARB_TRANSLATE_API_KEY='))
         .split('=')[1];
@@ -42,11 +42,11 @@ translate() {
     );
   } on PathNotFoundException catch (_) {
     stderr.writeln(
-        'PathNotFoundException: `.env` file is not found. Please create it by copying `.env.example`.');
+        'PathNotFoundException: `.config` file is not found. Please create it by copying `.config.example`.');
     exit(1);
   } on StateError catch (_) {
     stderr.writeln(
-        'StateError: `.env` file does not contain `ARB_TRANSLATE_API_KEY`.');
+        'StateError: `.config` file does not contain `ARB_TRANSLATE_API_KEY`.');
     exit(1);
   }
 }
