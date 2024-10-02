@@ -14,7 +14,7 @@ setup() {
 }
 
 /// Context to improve translation quality.
-const _transContext = '''
+const _translateContext = '''
 Japanese words should be translated into English directly.
 For example, おにぎり should be Onigiri.
 ''';
@@ -27,7 +27,7 @@ For example, おにぎり should be Onigiri.
 /// - installing the package with [setup]
 /// - copying `.config.example` and creating `.config` file for the API key
 ///
-/// To improve the quality of translation, update [_transContext].
+/// To improve the quality of translation, update [_translateContext].
 @DefaultTask()
 translate() {
   try {
@@ -36,9 +36,19 @@ translate() {
         .firstWhere((e) => e.startsWith('ARB_TRANSLATE_API_KEY='))
         .split('=')[1];
 
+    // choose the highest model, which is expected to be within the free tier
+    const model = 'gemini-1.5-pro';
+
     _runProcess(
       'arb_translate',
-      ['--api-key', apiKey, '--context', _transContext],
+      [
+        '--api-key',
+        apiKey,
+        '--context',
+        _translateContext,
+        '--model',
+        model,
+      ],
     );
   } on PathNotFoundException catch (_) {
     stderr.writeln(

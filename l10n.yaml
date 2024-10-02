@@ -1,4 +1,6 @@
 template-arb-file: app_ja.arb
 output-class: L10n
 nullable-getter: false
-arb-translate-model: gemini-1.5-flash
+#arb-translate-api-key: DONT_STORE_KEY_HERE
+#arb-translate-model: gemini-1.5-flash
+#arb-translate-context: [Describe your app here.]
