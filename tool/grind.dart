@@ -7,17 +7,11 @@ main(args) => grind(args);
 /// Installs the `arb_translate` package globally.
 @Task()
 setup() {
-  _runProcess(
+  run(
     'dart',
-    ['pub', 'global', 'activate', 'arb_translate'],
+    arguments: ['pub', 'global', 'activate', 'arb_translate'],
   );
 }
-
-/// Context to improve translation quality.
-const _translateContext = '''
-Japanese words should be translated into English directly.
-For example, おにぎり should be Onigiri.
-''';
 
 /// Runs the `arb_translate` command to generate the `.arb` files.
 ///
@@ -36,20 +30,23 @@ translate() {
         .firstWhere((e) => e.startsWith('ARB_TRANSLATE_API_KEY='))
         .split('=')[1];
 
+    // context to improve translation quality
+    const context = '''
+Japanese words should be translated into English directly.
+For example, おにぎり should be Onigiri.
+''';
+
     // choose the highest model, which is expected to be within the free tier
     const model = 'gemini-1.5-pro';
 
-    _runProcess(
-      'arb_translate',
-      [
-        '--api-key',
-        apiKey,
-        '--context',
-        _translateContext,
-        '--model',
-        model,
-      ],
-    );
+    run('arb_translate', arguments: [
+      '--api-key',
+      apiKey,
+      '--context',
+      context,
+      '--model',
+      model,
+    ]);
   } on PathNotFoundException catch (_) {
     exitCode = 1;
     stderr.writeln(
@@ -59,14 +56,4 @@ translate() {
     stderr.writeln(
         'StateError: `.secret` file does not contain `ARB_TRANSLATE_API_KEY`.');
   }
-}
-
-void _runProcess(String executable, List<String> arguments) {
-  final result = Process.runSync(
-    executable,
-    arguments,
-  );
-
-  stdout.writeln(result.stdout);
-  stderr.writeln(result.stderr);
 }
