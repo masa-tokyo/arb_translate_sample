@@ -1,4 +1,22 @@
 {
   "exampleTitle": "タイトル例",
-  "sake": "日本酒"
+  "sake": "日本酒",
+  "onigiri": "おにぎり",
+  "sushi": "寿司",
+  "gyudon": "牛丼",
+  "ramen": "ラーメン",
+  "tempura": "天ぷら",
+  "udon": "うどん",
+  "yakitori": "焼き鳥",
+  "mochi": "餅",
+  "takoyaki": "たこ焼き",
+  "okonomiyaki": "お好み焼き",
+  "miso_soup": "味噌汁",
+  "bento": "弁当",
+  "soba": "蕎麦",
+  "tonkatsu": "豚カツ",
+  "curry_rice": "カレーライス",
+  "tamagoyaki": "玉子焼き",
+  "matcha": "抹茶",
+  "dorayaki": "どら焼き"
 }
