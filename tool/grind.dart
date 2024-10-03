@@ -25,13 +25,13 @@ For example, おにぎり should be Onigiri.
 ///
 /// Use this command after:
 /// - installing the package with [setup]
-/// - copying `.config.example` and creating `.config` file for the API key
+/// - copying `.secret.example` and creating `.secret` file for the API key
 ///
 /// To improve the quality of translation, update [_translateContext].
 @DefaultTask()
 translate() {
   try {
-    final envEntries = File('.config').readAsLinesSync();
+    final envEntries = File('.secret').readAsLinesSync();
     final apiKey = envEntries
         .firstWhere((e) => e.startsWith('ARB_TRANSLATE_API_KEY='))
         .split('=')[1];
@@ -51,13 +51,13 @@ translate() {
       ],
     );
   } on PathNotFoundException catch (_) {
+    exitCode = 1;
     stderr.writeln(
-        'PathNotFoundException: `.config` file is not found. Please create it by copying `.config.example`.');
-    exit(1);
+        'PathNotFoundException: `.secret` file is not found. Please create it by copying `.secret.example`.');
   } on StateError catch (_) {
+    exitCode = 1;
     stderr.writeln(
-        'StateError: `.config` file does not contain `ARB_TRANSLATE_API_KEY`.');
-    exit(1);
+        'StateError: `.secret` file does not contain `ARB_TRANSLATE_API_KEY`.');
   }
 }
 
