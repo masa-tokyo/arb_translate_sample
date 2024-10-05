@@ -14,10 +14,20 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateTitle: (context) => L10n.of(context).exampleTitle,
+      // title: 'Example Title',
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       localeListResolutionCallback: (locales, supportedLocales) {
-        final locale = basicLocaleListResolution(locales, supportedLocales);
+        // fallback locale to en whereas the l10n.yaml is set to ja for automation translation
+        const fallbackLocale = Locale('en');
+        if (locales == null || locales.isEmpty) {
+          return fallbackLocale;
+        }
+        final currentLocale = locales.first;
+        final locale = supportedLocales.firstWhere(
+          (e) => e.languageCode == currentLocale.languageCode,
+          orElse: () => fallbackLocale,
+        );
         Intl.defaultLocale = locale.toString();
         return locale;
       },
