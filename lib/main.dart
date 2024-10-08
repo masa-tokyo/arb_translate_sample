@@ -18,18 +18,21 @@ class MainApp extends StatelessWidget {
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       localeListResolutionCallback: (locales, supportedLocales) {
-        // fallback locale to en whereas the l10n.yaml is set to ja for automation translation
+        // app_ja.art is set in l10n.yaml for automatic translation, but en is used for the fallback
         const fallbackLocale = Locale('en');
         if (locales == null || locales.isEmpty) {
           return fallbackLocale;
         }
-        final currentLocale = locales.first;
-        final locale = supportedLocales.firstWhere(
-          (e) => e.languageCode == currentLocale.languageCode,
+        // search for a matched locale based on the user's settings; if none is found, set the fallback.
+        final matchedLocale = locales.firstWhere(
+          (locale) => supportedLocales.any(
+            (supportedLocale) =>
+                supportedLocale.languageCode == locale.languageCode,
+          ),
           orElse: () => fallbackLocale,
         );
-        Intl.defaultLocale = locale.toString();
-        return locale;
+        Intl.defaultLocale = matchedLocale.toString();
+        return matchedLocale;
       },
       home: const Scaffold(
         body: Center(
