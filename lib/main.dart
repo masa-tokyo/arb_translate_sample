@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
       localizationsDelegates: L10n.localizationsDelegates,
       supportedLocales: L10n.supportedLocales,
       localeListResolutionCallback: (locales, supportedLocales) {
-        // app_ja.art is set in l10n.yaml for automatic translation, but en is used for the fallback
+        // app_ja.arb is set in l10n.yaml for automatic translation, but en is used for the fallback
         const fallbackLocale = Locale('en');
         if (locales == null || locales.isEmpty) {
           return fallbackLocale;
